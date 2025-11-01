@@ -1,0 +1,12 @@
+.idea/
+/node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.env
+.env
+/media
+package.json
+package-lock.json
+directory-tree.txt
