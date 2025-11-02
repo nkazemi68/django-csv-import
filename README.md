@@ -13,61 +13,60 @@ This repo is arranged for review: Quick-start instructions (manual & automated),
 
 ---
 
-## Quick Start (Windows)
-Prereqs: Docker Desktop running, Git, (Python optional)
+## Quick Start
+Prereqs: Docker Desktop running, Git, Python  (for local dev).
 
-1. Clone repo:
-```cmd
-git clone https://github.com/youruser/your-repo.git
+**Ubuntu**: docker, docker-compose (or docker compose), git, python3 (for local dev).
 
-cd your-repo
-```
-2. Run setup script (interactive):
-```cmd
-scripts\setup.bat
-```
+You can download and run `setup.bat` (`setup.sh` for ubuntu):
+    
 - The script checks for Git, Docker, Python.
-
+- it will clone repo to the given directory or desktop (default):
+    
+    example: `setup.bat "C:\my\path"`
 - It can optionally run docker-compose up --build for you.
 
-3. Manual start (if you prefer):
-```cmd
-docker-compose -f infra\docker-compose.yml up --build
-```
-Open http://127.0.0.1:8000/ for the Django app (dev server).
+to do it manually:
 
-## Quick Start (Ubuntu)
-Prereqs: docker, docker-compose (or docker compose), git, python3 (for local dev).
+1. Clone repo:
 
-### Manual:
-```bash
-git clone https://github.com/youruser/your-repo.git
+    create a directory then:
+    ```cmd
+    cd to\your\path
+    
+    git clone https://github.com/nkazemi68/django-csv-import.git
+    
+    cd django-csv-import
+    ```
+2. Run command to start:
+    ```cmd
+    docker-compose -f infra\docker-compose.yml up --build
+    ```
+3. Open http://127.0.0.1:8000/ for the Django app (dev server).
 
-cd your-repo
-docker-compose -f infra/docker-compose.yml up --build
-```
 ## API (placeholders — implemented in skeleton)
-- POST /api/imports/ — multipart/form-data "file" → returns { "task_id": "<celery-id>" } (202)
-- GET /api/imports/{task_id}/ — return status & errors
+- POST /api/import/ — multipart/form-data "file" → returns { "task_id": "<celery-id>" } (202)
+- GET /api/import/{task_id}/ — return status & errors
 
 ### Example (curl):
 ```bash
-curl -X POST "http://127.0.0.1:8000/api/imports/
+curl -X POST "http://127.0.0.1:8000/api/import/
 " -F "file=@example.csv"
 ```
 
 ## Project layout (important files)
 ```
-.
+django-csv-import/
 ├── infra/ # docker compose + Dockerfile.web + Dockerfile.worker
 ├── scripts/ # setup scripts (setup.bat for windows and setup.sh for linux)
-├── src/
+├── src/ # django project
 │ ├── manage.py
-│ └── src_package/ # django project
+│ └── src_package/ # django config and apps
 │ ├── settings.py
 │ └── ...
 ├── example.csv
 ├── README.md
+├── ARCHITECTURE.md
 └── CONTRIBUTING.md
 ```
 ## Notes for users
@@ -81,9 +80,9 @@ curl -X POST "http://127.0.0.1:8000/api/imports/
 ---
 
 ## Next steps for contributor
-After you verify scaffold is fine, follow next tasks:
+After you verify scaffold is fine, you can follow next tasks:
 
-- Implement models & migrations (`apps/imports` already skeletoned)
+- Implement models & migrations (`src/src_package/apps/importer` already skeletoned)
 
 - Implement Celery tasks and results storage
 
