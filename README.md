@@ -25,8 +25,8 @@ dev).
 You can download and run `setup.bat` (`setup.sh` for ubuntu):
 
 - The script checks for Git, Docker, Python.
-- it will clone repo to the given directory or desktop (default):
-  example: `setup.bat "C:\my\path"`
+- it will clone repo to the given directory or desktop (default): example:
+  `setup.bat "C:\my\path"`
 - It can optionally run docker-compose up --build for you.
 
 to do it manually:
