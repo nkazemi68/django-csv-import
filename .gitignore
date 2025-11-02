@@ -5,7 +5,7 @@ venv/
 __pycache__/
 *.pyc
 *.env
-.env
+.env.dev
 /media
 package.json
 package-lock.json

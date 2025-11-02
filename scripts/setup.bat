@@ -117,6 +117,7 @@ if /I "%START_NOW%"=="Y" (
 )
 
 POPD
+pause
 exit /b 0
 
 :print_header

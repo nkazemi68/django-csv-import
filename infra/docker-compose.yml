@@ -1,13 +1,10 @@
-version: '3.8'
 services:
   db:
     image: postgres:latest
-    environment:
-      POSTGRES_DB: djcsvimportdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+    env_file:
+      - ../.env.dev
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql
     ports:
       - "5432:5432"
 
@@ -18,16 +15,19 @@ services:
 
   web:
     build:
-      context: .
+      context: ..
       dockerfile: infra/Dockerfile.web
-    command: bash -c "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
+    entrypoint: ["/app/entrypoint.sh"]
+    command: ["sh", "-c", "gunicorn src_package.wsgi:application --bind 0.0.0.0:$${GUNICORN_PORT:-8000} --workers $${GUNICORN_WORKERS:-3} --threads $${GUNICORN_THREADS:-2} --timeout $${GUNICORN_TIMEOUT:-120} --access-logfile '-' --error-logfile '-'"]
     volumes:
-      - ./src:/app/src:cached
+      - ../src:/app/src:cached
+      - ../src/media:/app/src/media
     working_dir: /app/src
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/djcsvimportdb
-      - REDIS_URL=redis://redis:6379/0
-      - DJANGO_SETTINGS_MODULE=src_package.settings
+      - RUN_MIGRATIONS=1
+      - RUN_COLLECTSTATIC=0
+    env_file:
+      - ../.env.dev
     ports:
       - "8000:8000"
     depends_on:
@@ -36,19 +36,33 @@ services:
 
   worker:
     build:
-      context: .
+      context: ..
       dockerfile: infra/Dockerfile.worker
-    command: bash -lc "celery -A src_package worker --loglevel=info"
+    command: ["sh", "-c", "celery -A src_package worker -Q $${CELERY_QUEUES:-import} --concurrency=$${CELERY_CONCURRENCY:-4} --loglevel=$${CELERY_LOGLEVEL:-info} --autoscale=$${CELERY_AUTOSCALE:-10,2}"]
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "celery -A src_package inspect ping -d 5 || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     volumes:
-      - ./src:/app/src:cached
+      - ../src:/app/src:cached
+      - ../src/media:/app/src/media
     working_dir: /app/src
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/djcsvimportdb
-      - REDIS_URL=redis://redis:6379/0
-      - DJANGO_SETTINGS_MODULE=src_package.settings
+    env_file:
+      - ../.env.dev
     depends_on:
       - redis
       - db
+
+  flower:
+    image: mher/flower
+    env_file:
+      - ../.env.dev
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
 
 volumes:
   db_data:

@@ -7,14 +7,18 @@ WORKDIR /app
 
 # system deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential libpq-dev gcc \
+    build-essential libpq-dev gcc postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
+
 COPY src /app/src
+
+COPY infra/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
 WORKDIR /app/src
 

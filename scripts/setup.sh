@@ -108,14 +108,18 @@ START_NOW=${START_NOW:-Y}
 if [[ "$START_NOW" =~ ^[Yy]$ ]]; then
   info "Starting project (docker compose up --build). This will stream logs..."
   if command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
-    docker compose -f infra/docker-compose.yml up --build
+    docker compose -f infra/docker-compose.yml -p djcsv up --build
   else
-    docker-compose -f infra/docker-compose.yml up --build
+    docker-compose -f infra/docker-compose.yml -p djcsv up --build
   fi
 else
   info "Setup finished. To start manually run:"
-  printf "  docker compose -f infra/docker-compose.yml up --build\n"
+  printf "  docker compose -f infra/docker-compose.yml -p djcsv up --build\n"
   info "See README.md for API usage and further instructions."
 fi
+
+echo
+read -n1 -r -p "Press any key to close..."
+echo
 
 exit 0
