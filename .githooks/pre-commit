@@ -1,28 +1,52 @@
 #!/usr/bin/env bash
-# pre-commit hook: check staged .md files with prettier and markdownlint
+# pre-commit hook: format and lint .md files with prettier + markdownlint (with config)
 
-# Get staged files
 STAGED_MD=$(git diff --cached --name-only --diff-filter=ACM | grep -E "\.md$" || true)
 
 EXIT_CODE=0
 
 if [ -n "$STAGED_MD" ]; then
-  echo "[pre-commit] Checking staged markdown files with prettier/markdownlint..."
+  echo "[pre-commit] Formatting and linting staged .md files..."
+
   for file in $STAGED_MD; do
     echo " -> $file"
-    # try npx (local node_modules) first, fallback to global if available
+
     if command -v npx > /dev/null 2>&1; then
-      npx prettier --check "$file" || { echo "[pre-commit] prettier issues: $file"; EXIT_CODE=1; }
-      npx markdownlint "$file" || { echo "[pre-commit] markdownlint issues: $file"; EXIT_CODE=1; }
+      npx prettier --write "$file" > /dev/null 2>&1
+      PRETTIER_EXIT=$?
+      if [ $PRETTIER_EXIT -ne 0 ]; then
+        echo "[pre-commit] prettier failed: $file"
+        EXIT_CODE=1
+      fi
     else
-      echo "[pre-commit] npx not found; skipping prettier/markdownlint. Install Node and devDependencies."
+      echo "[pre-commit] npx not found. Install Node.js and run 'npm install'."
+      exit 1
+    fi
+
+    MARKDOWNLINT_CONFIG=".markdownlint.jsonc"  # یا .markdownlint.yaml
+    if [ ! -f "$MARKDOWNLINT_CONFIG" ]; then
+      echo "[pre-commit] Config file $MARKDOWNLINT_CONFIG not found!"
+      exit 1
+    fi
+
+    npx markdownlint "$file" --fix --config "$MARKDOWNLINT_CONFIG" > /dev/null 2>&1
+    FIX_EXIT=$?
+
+    npx markdownlint "$file" --config "$MARKDOWNLINT_CONFIG" > /dev/null 2>&1
+    LINT_EXIT=$?
+
+    if [ $LINT_EXIT -ne 0 ]; then
+      echo "[pre-commit] markdownlint issues (after fix): $file"
+      EXIT_CODE=1
     fi
   done
 fi
 
 if [ $EXIT_CODE -ne 0 ]; then
-  echo "[pre-commit] Commit blocked. Fix issues and try again."
+  echo "[pre-commit] Commit blocked. Fix issues above and try again."
+  echo "   Run: npx prettier --write '**/*.md' && npx markdownlint '**/*.md' --fix"
   exit $EXIT_CODE
 fi
 
+echo "[pre-commit] All .md files are clean!"
 exit 0
