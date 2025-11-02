@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# pre-commit hook: check staged .md files with prettier and markdownlint
+
+# Get staged files
+STAGED_MD=$(git diff --cached --name-only --diff-filter=ACM | grep -E "\.md$" || true)
+
+EXIT_CODE=0
+
+if [ -n "$STAGED_MD" ]; then
+  echo "[pre-commit] Checking staged markdown files with prettier/markdownlint..."
+  for file in $STAGED_MD; do
+    echo " -> $file"
+    # try npx (local node_modules) first, fallback to global if available
+    if command -v npx > /dev/null 2>&1; then
+      npx prettier --check "$file" || { echo "[pre-commit] prettier issues: $file"; EXIT_CODE=1; }
+      npx markdownlint "$file" || { echo "[pre-commit] markdownlint issues: $file"; EXIT_CODE=1; }
+    else
+      echo "[pre-commit] npx not found; skipping prettier/markdownlint. Install Node and devDependencies."
+    fi
+  done
+fi
+
+if [ $EXIT_CODE -ne 0 ]; then
+  echo "[pre-commit] Commit blocked. Fix issues and try again."
+  exit $EXIT_CODE
+fi
+
+exit 0

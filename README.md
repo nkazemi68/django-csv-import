@@ -40,18 +40,23 @@ to do it manually:
     ```
 2. Run command to start:
     ```cmd
-    docker-compose -f infra\docker-compose.yml up --build
+    docker-compose -f infra\docker-compose.yml -p djcsv up --build
     ```
 3. Open http://127.0.0.1:8000/ for the Django app (dev server).
 
 ## API (placeholders — implemented in skeleton)
-- POST /api/import/ — multipart/form-data "file" → returns { "task_id": "<celery-id>" } (202)
-- GET /api/import/{task_id}/ — return status & errors
+- POST /api/import — multipart/form-data "file" → returns { "task_id": "<celery-id>" } (202)
+- GET /api/import/{task_id} — return status & paginated errors as json
+- http://127.0.0.1:8000/ will show you swagger OpenAPI redoc
 
 ### Example (curl):
 ```bash
 curl -X POST "http://127.0.0.1:8000/api/import/
 " -F "file=@example.csv"
+```
+
+```bash
+curl -X POST "http://127.0.0.1:8000/api/import/{task_id}"
 ```
 
 ## Project layout (important files)
@@ -71,11 +76,11 @@ django-csv-import/
 ```
 ## Notes for users
 
-- You do NOT need to install development tools (Commitizen, pre-commit) to run the project. Those are developer conveniences; instructions live in CONTRIBUTING.md.
+- You do NOT need to install development tools (Commitizen, pre-commit) to run the project. Those are developer conveniences; instructions live in `CONTRIBUTING.md`.
 
 - If you run scripts\setup.bat it will offer to start the project with Docker Compose.
 
-- This repo uses a **Modular Monolith** with a small **Service Layer** (business logic outside views). See `architecture.md`.
+- This repo uses a **Modular Monolith** with a small **Service Layer** (business logic outside views). See `ARCHITECTURE.md`.
 
 ---
 
