@@ -33,6 +33,7 @@ dev).
 
    cd django-csv-import
    ```
+
 2. Build .env file from example (see `.env.example`), in repo root.
 3. Run command to start:
    ```cmd
