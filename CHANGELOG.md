@@ -1,3 +1,9 @@
+## v0.2.3 (2025-11-03)
+
+### Fix
+
+- **api**: fix importer app task status endpoint url
+
 ## v0.2.2 (2025-11-03)
 
 ### Fix
