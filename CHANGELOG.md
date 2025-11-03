@@ -2,7 +2,8 @@
 
 ### Fix
 
-- **api**: fix importer background tasks status update to success even if all csv rows has problems, means its a successfull try
+- **api**: fix importer background tasks status update to success even if all
+  csv rows has problems, means its a successfull try
 
 ## v0.2.0 (2025-11-03)
 
