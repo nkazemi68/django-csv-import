@@ -1,3 +1,9 @@
+## v0.2.4 (2025-11-03)
+
+### Fix
+
+- **apps**: fix importer ImportTask object creation problem in upload view
+
 ## v0.2.3 (2025-11-03)
 
 ### Fix
