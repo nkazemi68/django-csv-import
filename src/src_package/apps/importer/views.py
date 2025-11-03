@@ -78,12 +78,12 @@ class ImportUploadView(APIView):
         logger.info("SAVED_PATH (absolute): %s", saved_abs_path)
 
         # === Create task tracker ===
-        import_task = ImportTask.objects.create(task_id="", status=ImportTask.StatusChoices.PENDING)
+        import_task = ImportTask.objects.create(status=ImportTask.StatusChoices.PENDING)
 
         # === Launch Celery task ===
         async_result = process_csv.delay(saved_abs_path, import_task.id)
         import_task.task_id = async_result.id
-        import_task.save()
+        import_task.save(update_fields=["task_id"])
 
         logger.info("Celery task queued: %s (ImportTask: %s)", async_result.id, import_task.id)
         return Response({"task_id": async_result.id}, status=202)
