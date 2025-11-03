@@ -23,6 +23,6 @@ urlpatterns = [
     path('api/importer', include('src_package.apps.importer.urls')),
     path('', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
 
 ]

@@ -6,7 +6,7 @@ import io, csv
 
 
 class ImportServiceTest(TestCase):
-    def importer_book_creation_test(self):
+    def test_importer_book_creation(self):
         rows = [{
             "title": "Test Book",
             "author": "Navid Kazemi",
@@ -20,7 +20,7 @@ class ImportServiceTest(TestCase):
         self.assertTrue(Book.objects.filter(isbn="9780135957059").exists())
 
 
-    def importer_duplicate_isbn_skipping_test(self):
+    def test_importer_duplicate_isbn_skipping(self):
         Book.objects.create(title="Existing Book", author="Navid Kazemi", isbn="ISBN-123", publication_year=2025)
         rows = [{
             "title": "New Book",

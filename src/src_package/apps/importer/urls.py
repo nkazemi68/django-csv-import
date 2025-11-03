@@ -4,5 +4,5 @@ from .views import ImportUploadView, ImportStatusView
 
 urlpatterns = [
     path("", ImportUploadView.as_view(), name="importer-upload"),
-    path("/<str:task_id>", ImportStatusView.as_view(), name="importer-status")
+    path("<str:task_id>", ImportStatusView.as_view(), name="importer-status")
 ]
