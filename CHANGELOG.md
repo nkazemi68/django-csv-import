@@ -1,9 +1,15 @@
+## v0.2.2 (2025-11-03)
+
+### Fix
+
+- **apps**: fix importer app test methods and urls names
+
 ## v0.2.1 (2025-11-03)
 
 ### Fix
 
 - **api**: fix importer background tasks status update to success even if all
-  csv rows has problems, means its a successfull try
+  csv rows has problems, means it's a successfull try
 
 ## v0.2.0 (2025-11-03)
 
