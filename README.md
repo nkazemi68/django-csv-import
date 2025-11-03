@@ -56,7 +56,7 @@ curl -X POST "http://127.0.0.1:8000/api/import/
 ```
 
 ```bash
-curl -X POST "http://127.0.0.1:8000/api/import/{task_id}"
+curl -X GET "http://127.0.0.1:8000/api/import/{task_id}"
 ```
 
 ## Project layout (important files)

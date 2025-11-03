@@ -37,7 +37,7 @@ def process_csv(self, file_path, import_task_id=None, batch_size=1000):
     if not os.path.exists(file_path):
         logger.error("File not found in worker: %s", file_path)
         if import_task:
-            import_task.status = "FAILURE"
+            import_task.status = ImportTask.StatusChoices.FAILURE
             import_task.errors = [{"line": None, "message": f"file not found: {file_path}"}]
             import_task.finished_at = timezone.now()
             import_task.save()
@@ -87,7 +87,7 @@ def process_csv(self, file_path, import_task_id=None, batch_size=1000):
         import_task.processed = total_created
         import_task.total = processed
         import_task.errors = total_errors
-        import_task.status = "SUCCESS" if len(total_errors) == 0 else "FAILURE"
+        import_task.status = ImportTask.StatusChoices.SUCCESS
         import_task.finished_at = timezone.now()
         import_task.save()
 
