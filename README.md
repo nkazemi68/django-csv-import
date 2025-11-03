@@ -22,15 +22,6 @@ Prereqs: Docker Desktop running, Git, Python (for local dev).
 **Ubuntu**: docker, docker-compose (or docker compose), git, python3 (for local
 dev).
 
-You can download and run `setup.bat` (`setup.sh` for ubuntu):
-
-- The script checks for Git, Docker, Python.
-- it will clone repo to the given directory or desktop (default): example:
-  `setup.bat "C:\my\path"`
-- It can optionally run docker-compose up --build for you.
-
-to do it manually:
-
 1. Clone repo:
 
    create a directory then:
@@ -42,12 +33,12 @@ to do it manually:
 
    cd django-csv-import
    ```
-
-2. Run command to start:
+2. Build .env file from example (see `.env.example`), in repo root.
+3. Run command to start:
    ```cmd
    docker-compose -f infra\docker-compose.yml -p djcsv up --build
    ```
-3. Open http://127.0.0.1:8000/ for the Django app (dev server).
+4. Open http://127.0.0.1:8000/ for the Django app (dev server).
 
 ## API (placeholders — implemented in skeleton)
 
@@ -72,7 +63,6 @@ curl -X POST "http://127.0.0.1:8000/api/import/{task_id}"
 ```
 django-csv-import/
 ├── infra/ # docker compose + Dockerfile.web + Dockerfile.worker
-├── scripts/ # setup scripts (setup.bat for windows and setup.sh for linux)
 ├── src/ # django project
 │ ├── manage.py
 │ └── src_package/ # django config and apps

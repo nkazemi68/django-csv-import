@@ -11,3 +11,4 @@ package.json
 package-lock.json
 directory-tree.txt
 /src/media/
+/scripts/

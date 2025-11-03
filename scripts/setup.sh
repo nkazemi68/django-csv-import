@@ -19,7 +19,7 @@ EOF
 printf "\n\n"
 
 REPO_URL="https://github.com/nkazemi68/django-csv-import.git"
-TARGET_DIR="${1:-$HOME/Desktop/django-csv-import}"
+DEFAULT_DIR="djcsv"
 LOGFILE="$(dirname "$0")/setup.log"
 TIMESTAMP() { date "+%Y-%m-%d %H:%M:%S"; }
 
@@ -41,9 +41,26 @@ warn()   { printf "[\e[33mWARN\e[0m] %s\n" "$1"; }
 err()    { printf "[\e[31mERR \e[0m] %s\n" "$1"; }
 
 print_header "Django CSV Import - Setup"
+
+TARGET_DIR="${1:-}"
+if [ -z "$TARGET_DIR" ]; then
+  read -r -p "Enter clone directory [default: $DEFAULT_DIR]: " INPUT_DIR
+  TARGET_DIR="${INPUT_DIR:-$DEFAULT_DIR}"
+fi
+
 info "Target directory: $TARGET_DIR"
 
-mkdir -p "$TARGET_DIR"
+if [ -d "$TARGET_DIR" ]; then
+  if [ "$(ls -A "$TARGET_DIR" 2>/dev/null)" ]; then
+    err "Directory '$TARGET_DIR' already exists and is not empty!"
+    err "Please choose a different name or delete the directory."
+    err "Example: ./setup.sh my-new-project"
+    exit 1
+  fi
+else
+  mkdir -p "$TARGET_DIR"
+fi
+
 cd "$TARGET_DIR"
 
 section "1) Checking git"
@@ -114,7 +131,7 @@ if [[ "$START_NOW" =~ ^[Yy]$ ]]; then
   fi
 else
   info "Setup finished. To start manually run:"
-  printf "  docker compose -f infra/docker-compose.yml -p djcsv up --build\n"
+  printf "  cd %s && docker compose -f infra/docker-compose.yml -p djcsv up --build\n" "$TARGET_DIR"
   info "See README.md for API usage and further instructions."
 fi
 

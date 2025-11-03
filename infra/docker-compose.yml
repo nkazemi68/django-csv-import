@@ -2,7 +2,7 @@ services:
   db:
     image: postgres:latest
     env_file:
-      - ../.env.dev
+      - ../.env
     volumes:
       - db_data:/var/lib/postgresql
     ports:
@@ -27,7 +27,7 @@ services:
       - RUN_MIGRATIONS=1
       - RUN_COLLECTSTATIC=0
     env_file:
-      - ../.env.dev
+      - ../.env
     ports:
       - "8000:8000"
     depends_on:
@@ -50,7 +50,7 @@ services:
       - ../src/media:/app/src/media
     working_dir: /app/src
     env_file:
-      - ../.env.dev
+      - ../.env
     depends_on:
       - redis
       - db
@@ -58,7 +58,7 @@ services:
   flower:
     image: mher/flower
     env_file:
-      - ../.env.dev
+      - ../.env
     ports:
       - "5555:5555"
     depends_on:
