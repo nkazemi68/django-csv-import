@@ -59,6 +59,20 @@ curl -X POST "http://127.0.0.1:8000/api/import/
 curl -X GET "http://127.0.0.1:8000/api/import/{task_id}"
 ```
 
+if you want to test with a large csv of books, you can
+install `Faker` (which will be installed if you install
+requirements.txt in local), and use `large_csv_creator.py`
+script to generate a fake file and send it to `/api/import/`
+endpoint:
+
+```cmd
+pip install Faker
+# or in repo root only if you want to develop:
+pip install -r requirements.txt
+# then:
+python scripts\large_csv_creator.py
+```
+
 ## Project layout (important files)
 
 ```
