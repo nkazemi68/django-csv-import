@@ -2,7 +2,8 @@
 
 ### Feat
 
-- **project**: add django admin settings and related configs like static and staticfiles in settings and compose, plus a fake large csv creator script
+- **project**: add django admin settings and related configs like static and
+  staticfiles in settings and compose, plus a fake large csv creator script
 
 ## v0.2.4 (2025-11-03)
 
