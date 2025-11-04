@@ -1,3 +1,9 @@
+## v0.3.1 (2025-11-04)
+
+### Fix
+
+- **project**: fix importer api endpoint utls trailing slashesh to be more standard, and fix them in readme, plush adding index on ImporTask for better lookup
+
 ## v0.3.0 (2025-11-04)
 
 ### Feat
