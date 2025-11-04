@@ -143,5 +143,5 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     'TITLE': 'django-csv-import API',
     'DESCRIPTION': 'API documentation for django-csv-import project',
-    'VERSION': '0.1.0',
+    'VERSION': '0.3.0',
 }

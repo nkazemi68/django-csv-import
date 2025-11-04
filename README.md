@@ -34,8 +34,8 @@ dev).
    cd django-csv-import
    ```
 
-2. Build .env file from example (see `.env.example`), in repo root
-  or just copy it's content in your `.env` file (it's ready to use).
+2. Build .env file from example (see `.env.example`), in repo root or just copy
+   it's content in your `.env` file (it's ready to use).
 3. Run command to start:
    ```cmd
    docker-compose -f infra\docker-compose.yml -p djcsv up --build
@@ -73,9 +73,9 @@ pip install -r requirements.txt
 python scripts\large_csv_creator.py
 ```
 
-also if you don't like to use Django shell, psql, pgadmin, etc, 
-to see DB contents, you can use http://127.0.0.1:8000/admin 
-(Django admin panel), but before using you need to run:
+also if you don't like to use Django shell, psql, pgadmin, etc, to see DB
+contents, you can use http://127.0.0.1:8000/admin (Django admin panel), but
+before using you need to run:
 
 ```bash
 docker compose -p djcsv exec web python manage.py createsuperuser
@@ -101,6 +101,7 @@ django-csv-import/
 ├── ARCHITECTURE.md
 └── CONTRIBUTING.md
 ```
+
 ---
 
 ## Notes for users
