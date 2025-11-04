@@ -52,12 +52,12 @@ dev).
 ### Example (curl):
 
 ```bash
-curl -X POST "http://127.0.0.1:8000/api/import/
-" -F "file=@example.csv"
+curl -X POST "http://127.0.0.1:8000/api/importer" \
+  -F "file=@example.csv"
 ```
 
 ```bash
-curl -X GET "http://127.0.0.1:8000/api/import/{task_id}"
+curl -X GET "http://127.0.0.1:8000/api/importer/{task_id}"
 ```
 
 if you want to test with a large csv of books, you can install `Faker` (which
