@@ -22,6 +22,7 @@ services:
     volumes:
       - ../src:/app/src:cached
       - ../src/media:/app/src/media
+      - ../src/staticfiles:/app/src/staticfiles
     working_dir: /app/src
     environment:
       - RUN_MIGRATIONS=1
