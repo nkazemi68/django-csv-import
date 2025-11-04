@@ -44,9 +44,9 @@ dev).
 
 ## API (placeholders — implemented in skeleton)
 
-- POST /api/import — multipart/form-data "file" → returns { "task_id":
+- POST /api/importer — multipart/form-data "file" → returns { "task_id":
   "<celery-id>" } (202)
-- GET /api/import/{task_id} — return status & paginated errors as json
+- GET /api/importer/{task_id} — return status & paginated errors as json
 - http://127.0.0.1:8000/ will show you swagger OpenAPI redoc
 
 ### Example (curl):
@@ -63,7 +63,7 @@ curl -X GET "http://127.0.0.1:8000/api/importer/{task_id}"
 if you want to test with a large csv of books, you can install `Faker` (which
 will be installed if you install requirements.txt in local), and use
 `large_csv_creator.py` script to generate a fake file and send it to
-`/api/import/` endpoint:
+`/api/importer` endpoint:
 
 ```cmd
 pip install Faker
