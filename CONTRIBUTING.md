@@ -24,8 +24,8 @@ git config core.hooksPath .githooks
 - From repo root:
 
 ```bash
-cd src
 venv\Scripts\activate #windows
 pip install -r requirements.txt
-pytest
+cd src
+python manage.py test src_package.apps.importer.tests.import_service_test
 ```

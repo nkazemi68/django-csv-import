@@ -34,7 +34,8 @@ dev).
    cd django-csv-import
    ```
 
-2. Build .env file from example (see `.env.example`), in repo root.
+2. Build .env file from example (see `.env.example`), in repo root
+  or just copy it's content in your `.env` file (it's ready to use).
 3. Run command to start:
    ```cmd
    docker-compose -f infra\docker-compose.yml -p djcsv up --build
@@ -59,11 +60,10 @@ curl -X POST "http://127.0.0.1:8000/api/import/
 curl -X GET "http://127.0.0.1:8000/api/import/{task_id}"
 ```
 
-if you want to test with a large csv of books, you can
-install `Faker` (which will be installed if you install
-requirements.txt in local), and use `large_csv_creator.py`
-script to generate a fake file and send it to `/api/import/`
-endpoint:
+if you want to test with a large csv of books, you can install `Faker` (which
+will be installed if you install requirements.txt in local), and use
+`large_csv_creator.py` script to generate a fake file and send it to
+`/api/import/` endpoint:
 
 ```cmd
 pip install Faker
@@ -72,6 +72,19 @@ pip install -r requirements.txt
 # then:
 python scripts\large_csv_creator.py
 ```
+
+also if you don't like to use Django shell, psql, pgadmin, etc, 
+to see DB contents, you can use http://127.0.0.1:8000/admin 
+(Django admin panel), but before using you need to run:
+
+```bash
+docker compose -p djcsv exec web python manage.py createsuperuser
+# and to ensure static files will be served
+# just if you see problems on loading admin:
+docker compose -p djcsv exec web python manage.py collectstatic --noinput
+```
+
+---
 
 ## Project layout (important files)
 
@@ -88,6 +101,7 @@ django-csv-import/
 ├── ARCHITECTURE.md
 └── CONTRIBUTING.md
 ```
+---
 
 ## Notes for users
 
